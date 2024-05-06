@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from "react";
+import { IoCloseSharp } from "react-icons/io5";
 
 function Create({ setAddNewModal }) {
   const [className, setClassName] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [departmentData, setDepartmentData] = useState([]);
-  const [nameError, setNameError] = useState(""); 
+  const [nameError, setNameError] = useState("");
   const parent = useRef();
 
   const handleClassNameChange = (e) => {
     const value = e.target.value;
     if (value.length <= 50) {
       setClassName(value);
-      setNameError(""); 
+      setNameError("");
     } else {
-      setNameError("Name must not exceed 50 characters."); 
+      setNameError("Name must not exceed 50 characters.");
     }
   };
 
@@ -43,7 +44,7 @@ function Create({ setAddNewModal }) {
     e.preventDefault();
 
     if (nameError) {
-      return; 
+      return;
     }
 
     try {
@@ -64,25 +65,69 @@ function Create({ setAddNewModal }) {
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center fixed top-0 left-0 z-30 bg-opacity-50 bg-gray-500 transition-all duration-500" onClick={handleParentClick} ref={parent}>
-      <div className="w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 bg-white shadow-lg p-8">
+    <div
+      className="w-full h-full flex items-center justify-center fixed top-0 left-0 z-30 bg-opacity-50 bg-gray-500 transition-all duration-500"
+      onClick={handleParentClick}
+      ref={parent}
+    >
+      <div className="w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 bg-white shadow-lg p-8 relative">
+        <IoCloseSharp
+          className="absolute my-2 mx-2 text-xl text-red-500 cursor-pointer top-0 right-0"
+          onClick={() => setAddNewModal(false)}
+        />
         <h2 className="text-xl font-semibold mb-4">Create a New Class</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="className" className="block text-sm font-medium text-gray-700">Name:</label>
-            <input type="text" id="className" value={className} onChange={handleClassNameChange} className="mt-1 p-2 block w-full rounded-md border border-gray-300" required />
-            {nameError && <p className="text-red-500 text-sm mt-1">{nameError}</p>} {/* Display error message */}
+            <label
+              htmlFor="className"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Name:
+            </label>
+            <input
+              type="text"
+              id="className"
+              value={className}
+              onChange={handleClassNameChange}
+              className="mt-1 p-2 block w-full rounded-md border border-gray-300"
+              required
+            />
+            {nameError && (
+              <p className="text-red-500 text-sm mt-1">{nameError}</p>
+            )}{" "}
+            {/* Display error message */}
           </div>
           <div>
-            <label htmlFor="department" className="block text-sm font-medium text-gray-700">Department:</label>
-            <select id="department" value={selectedDepartment} onChange={handleDepartmentChange} className="mt-1 p-2 block w-full rounded-md border border-gray-300" required>
+            <label
+              htmlFor="department"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Department:
+            </label>
+            <select
+              id="department"
+              value={selectedDepartment}
+              onChange={handleDepartmentChange}
+              className="mt-1 p-2 block w-full rounded-md border border-gray-300"
+              required
+            >
               <option value="">Select Department</option>
               {departmentData.map((department) => (
-                <option key={department.department_id} value={department.department_id}>{department.name}</option>
+                <option
+                  key={department.department_id}
+                  value={department.department_id}
+                >
+                  {department.name}
+                </option>
               ))}
             </select>
           </div>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full">Create Class</button>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
+          >
+            Create Class
+          </button>
         </form>
       </div>
     </div>

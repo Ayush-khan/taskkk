@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { IoCloseSharp } from "react-icons/io5";
 import { MdOutlineDeleteSweep } from "react-icons/md";
 
 function Delete({ singleClassData, getAllData, setDeleteModal }) {
@@ -21,7 +22,7 @@ function Delete({ singleClassData, getAllData, setDeleteModal }) {
     }
   }
 
-  const className = singleClassData[0]?.name || '';
+  const className = singleClassData[0]?.name || "";
   const isLongName = className.length > 20; // Adjust the threshold as needed
 
   return (
@@ -30,15 +31,21 @@ function Delete({ singleClassData, getAllData, setDeleteModal }) {
       onClick={handleParentClick}
       ref={parent}
     >
-      <div className="w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 bg-white border rounded-lg shadow-lg p-4 flex flex-col items-center justify-between overflow-hidden">
+      <div className="w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 bg-white border rounded-lg shadow-lg p-4 flex flex-col items-center justify-between relative overflow-hidden">
+        <IoCloseSharp
+          className="absolute my-2 mx-2 text-xl text-red-500 cursor-pointer top-0 right-0"
+          onClick={() => setDeleteModal(false)}
+        />
         <MdOutlineDeleteSweep className="text-red-500 text-9xl" />
-
         <h1 className="text-xl text-center w-full">
           Are you deleting
           <span
-            className={`text-xl font-bold ${isLongName ? 'max-w-[10rem] truncate' : ''}`}
+            className={`text-xl font-bold ${
+              isLongName ? "max-w-[10rem] truncate" : ""
+            }`}
           >
-            {" "}{ className} {" "}
+            {" "}
+            {className}{" "}
           </span>
           class?
         </h1>
