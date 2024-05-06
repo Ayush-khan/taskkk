@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+
 function Update({ setUpdateModal, id, classMainName, name }) {
-  console.log(classMainName, name);
-  const [className, setClassName] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [className, setClassName] = useState(classMainName);
+  const [selectedDepartment, setSelectedDepartment] = useState(name);
   const [departmentData, setDepartmentData] = useState([]);
   const [nameError, setNameError] = useState("");
   const parent = useRef();
@@ -19,7 +19,8 @@ function Update({ setUpdateModal, id, classMainName, name }) {
   };
 
   const handleDepartmentChange = (e) => {
-    setSelectedDepartment(e.target.value);
+    const newValue = e.target.value;
+    setSelectedDepartment(newValue);
   };
 
   async function getDepartmentData() {
@@ -38,7 +39,6 @@ function Update({ setUpdateModal, id, classMainName, name }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(":id is", id);
     try {
       await fetch(`http://localhost:5000/classes/${id}`, {
         method: "PUT",
@@ -79,10 +79,9 @@ function Update({ setUpdateModal, id, classMainName, name }) {
                 Class Name:
               </label>
               <input
-                defaultValue={classMainName}
+                defaultValue={className}
                 type="text"
                 id="className"
-                // value={className}
                 onChange={handleClassNameChange}
                 className="mt-1 p-2 w-full rounded-md border border-gray-300"
                 required
@@ -97,24 +96,26 @@ function Update({ setUpdateModal, id, classMainName, name }) {
                 className="block text-sm font-medium text-gray-700"
               >
                 Department:
+                <p className="text-sm text-gray-500">Previous value: {name}</p>
+
               </label>
               <select
-                defaultValue={name}
-                id="department"
-                onChange={handleDepartmentChange}
-                className="mt-1 p-2 w-full rounded-md border border-gray-300"
-                required
-              >
-                <option value="">{name}</option>
-                {departmentData.map((department) => (
-                  <option
-                    key={department.department_id}
-                    value={department.department_id}
-                  >
-                    {department.name}
-                  </option>
-                ))}
-              </select>
+    defaultValue={selectedDepartment} // Set the default value here
+    id="department"
+    onChange={handleDepartmentChange}
+    className="mt-1 p-2 w-full rounded-md border border-gray-300"
+    required
+  >
+    <option value="">Select</option> {/* Default option */}
+    {departmentData.map((department) => (
+      <option
+        key={department.department_id}
+        value={department.department_id}
+      >
+        {department.name}
+      </option>
+    ))}
+  </select>
             </div>
             <div className="flex justify-end">
               <button
