@@ -7,16 +7,7 @@ import Delete from "./components/Delete";
 import Update from "./components/Update";
 
 function App() {
-  // const [singleClassData, setSingleClassData] = useState([]);
-  // const [allData, setAllData] = useState([]);
-  // const [addNewModal, setAddNewModal] = useState(false);
-  // const [deleteModal, setDeleteModal] = useState(false);
-  // const [updateModal, setUpdateModal] = useState(false);
-  // const [id, setId] = useState();
-  // const tableRef = useRef();
-  // const navBarRef = useRef();
 
-  
   const [singleClassData, setSingleClassData] = useState([]);
   const [allData, setAllData] = useState([]);
   const [addNewModal, setAddNewModal] = useState(false);
@@ -47,17 +38,6 @@ function App() {
     const jsonData = await response.json();
     setSingleClassData(jsonData);
   }
-
-  // async function handleUpdate(id) {
-  //   setUpdateModal(true);
-  //   const response = await fetch(`http://localhost:5000/classes/${id}`, {
-  //     method: "GET",
-  //   });
-  //   const jsonData = await response.json();
-  //   setSingleClassData(jsonData);
-  //   setId(id);
-  // }
-
 
   async function handleUpdate(id) {
     console.log(id);

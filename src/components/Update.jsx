@@ -26,7 +26,14 @@ function Update({ setUpdateModal, id, classMainName, name }) {
   async function getDepartmentData() {
     const response = await fetch("http://localhost:5000/departments");
     const jsonData = await response.json();
-    setDepartmentData(jsonData);
+
+    // Filter unique department names
+    const uniqueDepartments = Array.from(new Set(jsonData.map((department) => department.name)));
+
+    setDepartmentData(uniqueDepartments.map((name) => ({
+      name,
+      id: jsonData.find((department) => department.name === name).department_id,
+    })));
   }
 
   useEffect(() => {
@@ -97,25 +104,24 @@ function Update({ setUpdateModal, id, classMainName, name }) {
               >
                 Department:
                 <p className="text-sm text-gray-500">Previous value: {name}</p>
-
               </label>
               <select
-    defaultValue={selectedDepartment} // Set the default value here
-    id="department"
-    onChange={handleDepartmentChange}
-    className="mt-1 p-2 w-full rounded-md border border-gray-300"
-    required
-  >
-    <option value="">Select</option> {/* Default option */}
-    {departmentData.map((department) => (
-      <option
-        key={department.department_id}
-        value={department.department_id}
-      >
-        {department.name}
-      </option>
-    ))}
-  </select>
+                defaultValue={selectedDepartment}
+                id="department"
+                onChange={handleDepartmentChange}
+                className="mt-1 p-2 w-full rounded-md border border-gray-300"
+                required
+              >
+                <option value="">Select</option>
+                {departmentData.map((department) => (
+                  <option
+                    key={department.id}
+                    value={department.id}
+                  >
+                    {department.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="flex justify-end">
               <button
